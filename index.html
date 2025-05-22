@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reliance Finance Loan Application</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0a2540;
+      --accent: #00c6fb;
+      --glass: rgba(255,255,255,0.25);
+      --glass-border: rgba(255,255,255,0.18);
+      --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      --radius: 20px;
+      --transition: 0.4s cubic-bezier(.4,2,.6,1);
+      --nav-height: 70px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #0a2540 0%, #00c6fb 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    /* 3D Navigation Bar */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-height);
+      background: var(--glass);
+      box-shadow: 0 4px 24px 0 rgba(0,198,251,0.12);
+      border-bottom: 1.5px solid var(--glass-border);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2vw;
+      backdrop-filter: blur(12px);
+      animation: navDrop 1.2s cubic-bezier(.4,2,.6,1);
+    }
+    @keyframes navDrop {
+      from { transform: translateY(-100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .nav-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: 2px;
+      text-shadow: 0 2px 8px #00c6fb44;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+    .nav-title svg {
+      width: 36px; height: 36px;
+      fill: var(--accent);
+      filter: drop-shadow(0 2px 8px #00c6fb44);
+      transform: rotateY(0deg);
+      transition: transform 0.7s cubic-bezier(.4,2,.6,1);
+    }
+    .nav-title:hover svg {
+      transform: rotateY(360deg) scale(1.1);
+    }
+    .nav-links {
+      display: flex;
+      gap: 2vw;
+    }
+    .nav-link {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--glass);
+      border-radius: 16px;
+      padding: 0.5rem 1.2rem;
+      margin: 0 0.2rem;
+      border: 1px solid transparent;
+      box-shadow: 0 2px 8px 0 rgba(0,198,251,0.08);
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition), box-shadow var(--transition), transform 0.3s cubic-bezier(.4,2,.6,1);
+      perspective: 400px;
+      will-change: transform;
+    }
+    .nav-link.active, .nav-link:hover {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 16px 0 #00c6fb33;
+      transform: translateY(-4px) scale(1.08) rotateX(12deg);
+    }
+    /* Offset for nav */
+    .nav-offset { height: var(--nav-height); }
+    /* Parallax Hero with 3D floating shapes */
+    .hero {
+      position: relative;
+      height: 60vh;
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 0;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, rgba(10,37,64,0.7) 0%, rgba(0,198,251,0.3) 100%);
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      background: var(--glass);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--glass-border);
+      padding: 2.5rem 3rem;
+      text-align: center;
+      color: #fff;
+      backdrop-filter: blur(8px);
+      animation: fadeIn 1.5s;
+    }
+    .hero-content h1 {
+      font-size: 2.8rem;
+      margin: 0 0 1rem 0;
+      letter-spacing: 2px;
+      font-weight: 700;
+      text-shadow: 0 2px 12px #0a2540cc;
+    }
+    .hero-content .subtitle {
+      font-size: 1.3rem;
+      margin: 0 0 1.5rem 0;
+      color: #e3f6fd;
+      text-shadow: 0 2px 8px #0a2540cc;
+    }
+    .hero-content .about {
+      font-size: 1.1rem;
+      color: #fff;
+      margin-bottom: 1.5rem;
+      opacity: 0.92;
+    }
+    .hero-content button {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.8rem 2.2rem;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 12px 0 rgba(0,198,251,0.2);
+      transition: background var(--transition), transform var(--transition), box-shadow 0.3s;
+      perspective: 400px;
+      will-change: transform;
+    }
+    .hero-content button:hover {
+      background: #0a2540;
+      color: var(--accent);
+      transform: scale(1.08) rotateX(10deg);
+      box-shadow: 0 8px 32px 0 #00c6fb33;
+    }
+    /* 3D Floating shapes */
+    .hero-3d {
+      position: absolute;
+      z-index: 2;
+      top: 10%; left: 5%;
+      width: 80px; height: 80px;
+      pointer-events: none;
+      animation: float3d 6s infinite alternate cubic-bezier(.4,2,.6,1);
+      filter: drop-shadow(0 4px 24px #00c6fb88);
+    }
+    .hero-3d2 {
+      position: absolute;
+      z-index: 2;
+      bottom: 10%; right: 8%;
+      width: 60px; height: 60px;
+      pointer-events: none;
+      animation: float3d2 7s infinite alternate cubic-bezier(.4,2,.6,1);
+      filter: drop-shadow(0 4px 24px #0a254088);
+    }
+    @keyframes float3d {
+      from { transform: translateY(0) rotateZ(0deg) scale(1); }
+      to { transform: translateY(-40px) rotateZ(30deg) scale(1.15); }
+    }
+    @keyframes float3d2 {
+      from { transform: translateY(0) rotateZ(0deg) scale(1); }
+      to { transform: translateY(30px) rotateZ(-20deg) scale(1.1); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* SPA Pages */
+    .spa-page { display: none; animation: fadeIn 1s; }
+    .spa-page.active { display: block; }
+    /* 3D Card Grid */
+    .image-section {
+      padding: 3rem 2vw 2rem 2vw;
+      background: linear-gradient(135deg, #fff 0%, #e3f6fd 100%);
+      min-height: 40vh;
+    }
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      margin: 0 auto;
+      max-width: 1200px;
+    }
+    .img-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      transition: transform 0.5s cubic-bezier(.4,2,.6,1), box-shadow var(--transition);
+      cursor: pointer;
+      min-height: 180px;
+      display: flex;
+      align-items: flex-end;
+      perspective: 600px;
+      will-change: transform;
+    }
+    .img-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      transition: transform 0.5s cubic-bezier(.4,2,.6,1);
+      display: block;
+      background: #e3f6fd;
+    }
+    .img-card .caption {
+      position: absolute;
+      bottom: 0;
+      left: 0; right: 0;
+      background: rgba(10,37,64,0.7);
+      color: #fff;
+      padding: 0.7rem 1rem;
+      font-size: 1rem;
+      opacity: 0;
+      transform: translateY(100%);
+      transition: opacity var(--transition), transform var(--transition);
+      border-bottom-left-radius: var(--radius);
+      border-bottom-right-radius: var(--radius);
+    }
+    .img-card:hover {
+      transform: translateY(-8px) scale(1.04) rotateY(12deg) rotateX(6deg);
+      box-shadow: 0 12px 32px 0 rgba(0,198,251,0.18);
+    }
+    .img-card:hover img {
+      transform: scale(1.08) rotateZ(2deg);
+    }
+    .img-card:hover .caption {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .img-card .img-fallback {
+      width: 100%;
+      height: 180px;
+      background: #e3f6fd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0a2540;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    /* Loan Form */
+    .form-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 60vh;
+      background: linear-gradient(135deg, #e3f6fd 0%, #fff 100%);
+      padding: 3rem 0;
+    }
+    .loan-form {
+      background: var(--glass);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--glass-border);
+      padding: 2.5rem 2.5rem 2rem 2.5rem;
+      min-width: 320px;
+      max-width: 400px;
+      width: 100%;
+      backdrop-filter: blur(8px);
+      animation: fadeIn 1.2s;
+    }
+    .loan-form h2 {
+      margin-top: 0;
+      color: var(--primary);
+      font-size: 2rem;
+      margin-bottom: 1.2rem;
+      text-align: center;
+    }
+    .loan-form label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #0a2540;
+      font-weight: 600;
+    }
+    .loan-form input, .loan-form textarea {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      margin-bottom: 1.2rem;
+      border-radius: 10px;
+      border: 1px solid #cce6f6;
+      background: rgba(255,255,255,0.7);
+      font-size: 1rem;
+      transition: border var(--transition);
+      outline: none;
+    }
+    .loan-form input:focus, .loan-form textarea:focus {
+      border: 1.5px solid var(--accent);
+    }
+    .loan-form button {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.9rem 0;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 12px 0 rgba(0,198,251,0.2);
+      transition: background var(--transition), transform var(--transition);
+    }
+    .loan-form button:hover {
+      background: #0a2540;
+      color: var(--accent);
+      transform: scale(1.04);
+    }
+    .success-message {
+      text-align: center;
+      color: #00b894;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-top: 1rem;
+      opacity: 0;
+      transition: opacity 0.6s;
+    }
+    .success-message.show {
+      opacity: 1;
+    }
+    /* Floating Calculator Icon */
+    .calc-float {
+      position: fixed;
+      right: 2.2rem;
+      bottom: 2.2rem;
+      z-index: 100;
+      background: var(--glass);
+      border-radius: 50%;
+      box-shadow: var(--shadow);
+      border: 1.5px solid var(--glass-border);
+      width: 64px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: box-shadow var(--transition), transform var(--transition);
+      backdrop-filter: blur(8px);
+      animation: floatIn 1.2s;
+    }
+    .calc-float:hover {
+      box-shadow: 0 8px 32px 0 rgba(0,198,251,0.25);
+      transform: scale(1.08);
+    }
+    .calc-float svg {
+      width: 32px;
+      height: 32px;
+      fill: var(--primary);
+    }
+    @keyframes floatIn {
+      from { opacity: 0; transform: scale(0.7) translateY(40px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    /* Calculator Popup */
+    .calc-popup {
+      position: fixed;
+      right: 2.2rem;
+      bottom: 6.5rem;
+      z-index: 200;
+      background: var(--glass);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1.5px solid var(--glass-border);
+      width: 320px;
+      padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      backdrop-filter: blur(8px);
+      animation: popupIn 0.5s;
+    }
+    .calc-popup.show {
+      display: flex;
+      animation: popupIn 0.5s;
+    }
+    @keyframes popupIn {
+      from { opacity: 0; transform: translateY(40px) scale(0.8); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .calc-display {
+      width: 100%;
+      background: rgba(255,255,255,0.7);
+      border-radius: 10px;
+      padding: 0.7rem 1rem;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      text-align: right;
+      border: 1px solid #cce6f6;
+      min-height: 2.2rem;
+      letter-spacing: 1px;
+      color: #0a2540;
+    }
+    .calc-keys {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.7rem;
+      width: 100%;
+    }
+    .calc-keys button {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      padding: 0.7rem 0;
+      cursor: pointer;
+      transition: background var(--transition), transform var(--transition);
+      font-weight: 700;
+    }
+    .calc-keys button:hover {
+      background: #0a2540;
+      color: var(--accent);
+      transform: scale(1.08);
+    }
+    /* Admin Login Modal */
+    .modal-bg {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(10,37,64,0.45);
+      z-index: 300;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.5s;
+    }
+    .modal-bg.show {
+      display: flex;
+    }
+    .admin-login {
+      background: var(--glass);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1.5px solid var(--glass-border);
+      padding: 2.2rem 2.5rem 2rem 2.5rem;
+      min-width: 320px;
+      max-width: 400px;
+      width: 100%;
+      backdrop-filter: blur(8px);
+      text-align: center;
+      animation: popupIn 0.5s;
+    }
+    .admin-login h2 {
+      margin-top: 0;
+      color: var(--primary);
+      font-size: 1.7rem;
+      margin-bottom: 1.2rem;
+    }
+    .admin-login input {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      margin-bottom: 1.2rem;
+      border-radius: 10px;
+      border: 1px solid #cce6f6;
+      background: rgba(255,255,255,0.7);
+      font-size: 1rem;
+      transition: border var(--transition);
+      outline: none;
+    }
+    .admin-login input:focus {
+      border: 1.5px solid var(--accent);
+    }
+    .admin-login button {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.9rem 0;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 12px 0 rgba(0,198,251,0.2);
+      transition: background var(--transition), transform var(--transition);
+    }
+    .admin-login button:hover {
+      background: #0a2540;
+      color: var(--accent);
+      transform: scale(1.04);
+    }
+    .admin-login .error {
+      color: #e74c3c;
+      font-size: 1rem;
+      margin-bottom: 0.7rem;
+      min-height: 1.2rem;
+    }
+    /* Admin Panel */
+    .admin-panel {
+      background: var(--glass);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1.5px solid var(--glass-border);
+      padding: 2.2rem 2.5rem 2rem 2.5rem;
+      min-width: 320px;
+      max-width: 700px;
+      width: 100%;
+      backdrop-filter: blur(8px);
+      text-align: center;
+      animation: popupIn 0.5s;
+      margin: 2rem auto;
+    }
+    .admin-panel h2 {
+      margin-top: 0;
+      color: var(--primary);
+      font-size: 1.7rem;
+      margin-bottom: 1.2rem;
+    }
+    .admin-panel table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.5rem;
+      background: rgba(255,255,255,0.7);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .admin-panel th, .admin-panel td {
+      padding: 0.7rem 0.5rem;
+      border-bottom: 1px solid #cce6f6;
+      text-align: left;
+      font-size: 1rem;
+    }
+    .admin-panel th {
+      background: #e3f6fd;
+      color: #0a2540;
+      font-weight: 700;
+    }
+    .admin-panel tr:last-child td {
+      border-bottom: none;
+    }
+    .admin-panel button {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.7rem 2rem;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 12px 0 rgba(0,198,251,0.2);
+      transition: background var(--transition), transform var(--transition);
+      margin-bottom: 1rem;
+    }
+    .admin-panel button:hover {
+      background: #0a2540;
+      color: var(--accent);
+      transform: scale(1.04);
+    }
+    .admin-panel .logout {
+      background: #e74c3c;
+      color: #fff;
+      margin-left: 1rem;
+    }
+    .admin-panel .logout:hover {
+      background: #c0392b;
+      color: #fff;
+    }
+    @media (max-width: 700px) {
+      .admin-panel, .loan-form, .admin-login {
+        padding: 1.2rem 0.5rem 1rem 0.5rem;
+        min-width: unset;
+        max-width: 98vw;
+      }
+      .image-grid {
+        gap: 1rem;
+      }
+    }
+    @media (max-width: 500px) {
+      .hero-content {
+        padding: 1.2rem 0.5rem;
+      }
+      .form-section {
+        padding: 1.2rem 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-title">
+      <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="#00c6fb"/><text x="32" y="44" text-anchor="middle" font-size="32" fill="#fff" font-family="Montserrat,Arial" font-weight="bold">₹</text></svg>
+      Reliance Finance
+    </div>
+    <div class="nav-links">
+      <div class="nav-link active" data-page="home">Home</div>
+      <div class="nav-link" data-page="about">About Us</div>
+      <div class="nav-link" data-page="products">Loan Products</div>
+      <div class="nav-link" data-page="contact">Contact Us</div>
+      <div class="nav-link" data-page="apply">Apply</div>
+    </div>
+  </nav>
+  <div class="nav-offset"></div>
+  <!-- Hindi Title Banner -->
+  <div style="width:100%;background:linear-gradient(90deg,#00c6fb 0%,#0a2540 100%),url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;box-shadow:0 4px 32px #00c6fb33;position:relative;z-index:2;">
+    <div style="max-width:900px;margin:0 auto;padding:2.2rem 1rem 1.2rem 1rem;text-align:center;">
+      <h2 style="font-size:2.3rem;color:#fff;font-weight:900;text-shadow:0 2px 12px #0a2540cc,0 4px 24px #00c6fb88;letter-spacing:2px;line-height:1.2;">
+        <span style="font-size:2.7rem;display:block;margin-bottom:0.5rem;">रिलायंस फाइनेंस</span>
+        भारत की सबसे भरोसेमंद और तेज़ लोन सेवा
+      </h2>
+      <div style="color:#e3f6fd;font-size:1.2rem;margin-top:0.7rem;">आपके सपनों को पूरा करने के लिए, आसान और सुरक्षित लोन।</div>
+    </div>
+  </div>
+  <!-- Parallax Hero -->
+  <section class="hero spa-page active" id="page-home">
+    <svg class="hero-3d" viewBox="0 0 80 80"><circle cx="40" cy="40" r="36" fill="#00c6fb" opacity="0.18"/><rect x="20" y="20" width="40" height="40" rx="12" fill="#fff" opacity="0.12"/></svg>
+    <svg class="hero-3d2" viewBox="0 0 60 60"><rect x="10" y="10" width="40" height="40" rx="20" fill="#0a2540" opacity="0.13"/></svg>
+    <div class="hero-content">
+      <h1>Reliance Finance</h1>
+      <div class="subtitle">Your trusted partner for easy, fast, and secure loans.<br>Empowering your financial dreams.</div>
+      <div class="about">Reliance Finance is a leading provider of personal, business, and home loans. With a commitment to transparency, speed, and customer satisfaction, we help you achieve your financial goals with ease and trust.</div>
+      <button onclick="showPage('apply')">Apply for Loan</button>
+    </div>
+  </section>
+  <!-- About Us Page -->
+  <section class="spa-page" id="page-about">
+    <div class="hero-content" style="margin:2rem auto;max-width:600px;">
+      <h1>About Reliance Finance</h1>
+      <div class="about">Reliance Finance was founded with a vision to make finance accessible and simple for everyone. Our mission is to empower individuals and businesses by providing quick, transparent, and affordable loans. <br><br>We believe in building trust, offering flexible solutions, and supporting our customers at every step. Our dedicated team ensures a seamless experience, from application to disbursal.<br><br><b>Why Choose Us?</b><ul style='text-align:left;max-width:500px;margin:1rem auto 0 auto;'><li>Fast approvals and disbursals</li><li>Low interest rates</li><li>Minimal paperwork</li><li>Transparent process</li><li>24/7 customer support</li></ul></div>
+    </div>
+  </section>
+  <!-- Loan Products Page -->
+  <section class="spa-page" id="page-products">
+    <div class="hero-content" style="margin:2rem auto;max-width:700px;">
+      <h1>Our Loan Products</h1>
+      <div class="about">Explore our range of loan products, each designed to meet your unique needs. Click on a card to learn more.</div>
+    </div>
+    <div class="image-grid">
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=400&q=80" alt="Personal Loan" onerror="this.style.display='none';this.parentNode.querySelector('.img-fallback').style.display='flex';"><div class="img-fallback" style="display:none;">Personal Loans</div><div class="caption">Personal Loans</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80" alt="Business Loan" onerror="this.style.display='none';this.parentNode.querySelector('.img-fallback').style.display='flex';"><div class="img-fallback" style="display:none;">Business Loans</div><div class="caption">Business Loans</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1508385082359-f48b1c1b1f8a?auto=format&fit=crop&w=400&q=80" alt="Home Loan" onerror="this.style.display='none';this.parentNode.querySelector('.img-fallback').style.display='flex';"><div class="img-fallback" style="display:none;">Home Loans</div><div class="caption">Home Loans</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1515168833906-d2a3b82b3029?auto=format&fit=crop&w=400&q=80" alt="Education Loan" onerror="this.style.display='none';this.parentNode.querySelector('.img-fallback').style.display='flex';"><div class="img-fallback" style="display:none;">Education Loans</div><div class="caption">Education Loans</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80" alt="Car Loan" onerror="this.style.display='none';this.parentNode.querySelector('.img-fallback').style.display='flex';"><div class="img-fallback" style="display:none;">Car Loans</div><div class="caption">Car Loans</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=400&q=80" alt="Gold Loan" onerror="this.style.display='none';this.parentNode.querySelector('.img-fallback').style.display='flex';"><div class="img-fallback" style="display:none;">Gold Loans</div><div class="caption">Gold Loans</div></div>
+    </div>
+  </section>
+  <!-- Contact Us Page -->
+  <section class="spa-page" id="page-contact">
+    <div class="hero-content" style="margin:2rem auto;max-width:600px;">
+      <h1>Contact Us</h1>
+      <div class="about">Have questions or need help? Reach out to us!</div>
+      <form id="contactForm" style="margin-top:1.5rem;">
+        <input type="text" id="contactName" placeholder="Your Name" required style="margin-bottom:1rem;width:100%;padding:0.7rem 1rem;border-radius:10px;border:1px solid #cce6f6;">
+        <input type="email" id="contactEmail" placeholder="Your Email" required style="margin-bottom:1rem;width:100%;padding:0.7rem 1rem;border-radius:10px;border:1px solid #cce6f6;">
+        <textarea id="contactMsg" placeholder="Your Message" required rows="3" style="margin-bottom:1rem;width:100%;padding:0.7rem 1rem;border-radius:10px;border:1px solid #cce6f6;"></textarea>
+        <button type="submit" style="width:100%;background:var(--accent);color:#fff;border:none;padding:0.9rem 0;border-radius:30px;font-size:1.1rem;font-weight:700;cursor:pointer;box-shadow:0 2px 12px 0 rgba(0,198,251,0.2);transition:background var(--transition),transform var(--transition);">Send Message</button>
+        <div class="success-message" id="contactSuccess">Message sent!</div>
+      </form>
+      <div style="margin-top:2rem;text-align:left;">
+        <b>Address:</b> 123 Finance Street, Mumbai, India<br>
+        <b>Email:</b> <a href="mailto:onlineservicedov2@gmail.com" style="color:var(--accent);text-decoration:underline;">onlineservicedov2@gmail.com</a><br>
+        <b>Phone:</b> <a href="tel:+919007546886" style="color:var(--accent);text-decoration:underline;">+91-9007546886</a>
+      </div>
+      <img src="https://maps.googleapis.com/maps/api/staticmap?center=Mumbai,India&zoom=12&size=400x200&key=AIzaSyD-EXAMPLE" alt="Map" style="margin-top:1.5rem;width:100%;max-width:400px;border-radius:16px;box-shadow:0 2px 12px #00c6fb33;">
+    </div>
+  </section>
+  <!-- Loan Application Page -->
+  <section class="form-section spa-page" id="page-apply">
+    <form class="loan-form" id="loanForm">
+      <h2>Loan Application</h2>
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" required maxlength="40" autocomplete="off">
+      <label for="phone">Phone</label>
+      <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" maxlength="10" autocomplete="off">
+      <label for="amount">Loan Amount (₹)</label>
+      <input type="number" id="amount" name="amount" required min="1000" max="10000000" autocomplete="off">
+      <label for="purpose">Purpose</label>
+      <textarea id="purpose" name="purpose" required maxlength="120" rows="2"></textarea>
+      <button type="submit">Submit Application</button>
+      <div class="success-message" id="successMsg">Application submitted successfully!</div>
+    </form>
+  </section>
+  <!-- Floating Calculator Icon -->
+  <div class="calc-float" id="calcFloat" title="Open Calculator" style="z-index:10001;">
+    <svg viewBox="0 0 24 24"><path d="M7 2C5.89 2 5 2.89 5 4V20C5 21.11 5.89 22 7 22H17C18.11 22 19 21.11 19 20V4C19 2.89 18.11 2 17 2H7M7 4H17V6H7V4M7 8H9V10H7V8M11 8H13V10H11V8M15 8H17V10H15V8M7 12H9V14H7V12M11 12H13V14H11V12M15 12H17V14H15V12M7 16H9V18H7V16M11 16H13V18H11V16M15 16H17V18H15V16Z"/></svg>
+  </div>
+  <!-- Calculator Popup -->
+  <div class="calc-popup" id="calcPopup">
+    <div class="calc-display" id="calcDisplay">0</div>
+    <div class="calc-keys">
+      <button data-key="7">7</button>
+      <button data-key="8">8</button>
+      <button data-key="9">9</button>
+      <button data-key="/">÷</button>
+      <button data-key="4">4</button>
+      <button data-key="5">5</button>
+      <button data-key="6">6</button>
+      <button data-key="*">×</button>
+      <button data-key="1">1</button>
+      <button data-key="2">2</button>
+      <button data-key="3">3</button>
+      <button data-key="-">−</button>
+      <button data-key="0">0</button>
+      <button data-key=".">.</button>
+      <button data-key="C">C</button>
+      <button data-key="+">+</button>
+      <button data-key="=">=</button>
+    </div>
+  </div>
+  <!-- Admin Login Modal -->
+  <div class="modal-bg" id="adminModal">
+    <form class="admin-login" id="adminLoginForm" autocomplete="off" onsubmit="return false;">
+      <h2>Admin Login</h2>
+      <div class="error" id="adminError"></div>
+      <input type="text" id="adminUser" placeholder="Username" required autocomplete="off">
+      <input type="password" id="adminPass" placeholder="Password" required autocomplete="off">
+      <button type="submit">Login</button>
+    </form>
+  </div>
+  <!-- Admin Panel (hidden by default) -->
+  <div class="admin-panel" id="adminPanel" style="display:none">
+    <h2>Loan Applications</h2>
+    <div style="overflow-x:auto;">
+      <table id="adminTable">
+        <thead>
+          <tr><th>Name</th><th>Phone</th><th>Amount</th><th>Purpose</th><th>Date</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <button onclick="downloadCSV()">Download CSV</button>
+    <button class="logout" onclick="logoutAdmin()">Logout</button>
+  </div>
+  <!-- Add after hero section on home page -->
+  <section class="spa-page" id="page-home-benefits" style="background:linear-gradient(135deg,#e3f6fd 0%,#fff 100%);padding:2.5rem 0 2rem 0;">
+    <div style="max-width:1100px;margin:0 auto;">
+      <h2 style="text-align:center;font-size:2rem;color:#0a2540;font-weight:800;margin-bottom:2rem;">हमारे फायदे</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem;">
+        <div style="background:rgba(255,255,255,0.7);border-radius:18px;box-shadow:0 4px 24px #00c6fb22;padding:2rem 1.2rem;text-align:center;backdrop-filter:blur(6px);">
+          <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Fast" style="width:54px;height:54px;margin-bottom:1rem;filter:drop-shadow(0 2px 8px #00c6fb44);">
+          <div style="font-size:1.2rem;font-weight:700;color:#0a2540;">तेज़ प्रोसेसिंग</div>
+          <div style="color:#333;margin-top:0.5rem;">आपका लोन कुछ ही घंटों में स्वीकृत।</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.7);border-radius:18px;box-shadow:0 4px 24px #00c6fb22;padding:2rem 1.2rem;text-align:center;backdrop-filter:blur(6px);">
+          <img src="https://cdn-icons-png.flaticon.com/512/190/190406.png" alt="Low Interest" style="width:54px;height:54px;margin-bottom:1rem;filter:drop-shadow(0 2px 8px #00c6fb44);">
+          <div style="font-size:1.2rem;font-weight:700;color:#0a2540;">कम ब्याज दरें</div>
+          <div style="color:#333;margin-top:0.5rem;">बाजार में सबसे कम ब्याज दरें।</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.7);border-radius:18px;box-shadow:0 4px 24px #00c6fb22;padding:2rem 1.2rem;text-align:center;backdrop-filter:blur(6px);">
+          <img src="https://cdn-icons-png.flaticon.com/512/190/190422.png" alt="Support" style="width:54px;height:54px;margin-bottom:1rem;filter:drop-shadow(0 2px 8px #00c6fb44);">
+          <div style="font-size:1.2rem;font-weight:700;color:#0a2540;">24x7 सहायता</div>
+          <div style="color:#333;margin-top:0.5rem;">हमेशा आपके साथ, हर समय।</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.7);border-radius:18px;box-shadow:0 4px 24px #00c6fb22;padding:2rem 1.2rem;text-align:center;backdrop-filter:blur(6px);">
+          <img src="https://cdn-icons-png.flaticon.com/512/190/190423.png" alt="Paperless" style="width:54px;height:54px;margin-bottom:1rem;filter:drop-shadow(0 2px 8px #00c6fb44);">
+          <div style="font-size:1.2rem;font-weight:700;color:#0a2540;">पेपरलेस प्रक्रिया</div>
+          <div style="color:#333;margin-top:0.5rem;">आसान और डिजिटल आवेदन।</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="spa-page" id="page-home-reviews" style="background:linear-gradient(135deg,#fff 0%,#e3f6fd 100%);padding:2.5rem 0 2rem 0;">
+    <div style="max-width:1100px;margin:0 auto;">
+      <h2 style="text-align:center;font-size:2rem;color:#0a2540;font-weight:800;margin-bottom:2rem;">ग्राहक समीक्षा</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2rem;">
+        <div style="background:rgba(255,255,255,0.8);border-radius:18px;box-shadow:0 4px 24px #00c6fb22;padding:2rem 1.2rem;text-align:center;backdrop-filter:blur(6px);">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Customer" style="width:64px;height:64px;border-radius:50%;margin-bottom:1rem;">
+          <div style="font-size:1.1rem;color:#0a2540;font-weight:700;">राहुल शर्मा</div>
+          <div style="color:#333;margin-top:0.5rem;">"रिलायंस फाइनेंस से लोन लेना बहुत आसान और तेज़ था। टीम बहुत मददगार है।"</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.8);border-radius:18px;box-shadow:0 4px 24px #00c6fb22;padding:2rem 1.2rem;text-align:center;backdrop-filter:blur(6px);">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Customer" style="width:64px;height:64px;border-radius:50%;margin-bottom:1rem;">
+          <div style="font-size:1.1rem;color:#0a2540;font-weight:700;">सुमन वर्मा</div>
+          <div style="color:#333;margin-top:0.5rem;">"कम ब्याज दर और पेपरलेस प्रक्रिया ने मुझे बहुत प्रभावित किया।"</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.8);border-radius:18px;box-shadow:0 4px 24px #00c6fb22;padding:2rem 1.2rem;text-align:center;backdrop-filter:blur(6px);">
+          <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="Customer" style="width:64px;height:64px;border-radius:50%;margin-bottom:1rem;">
+          <div style="font-size:1.1rem;color:#0a2540;font-weight:700;">अमित सिंह</div>
+          <div style="color:#333;margin-top:0.5rem;">"24x7 सहायता और तेज़ सेवा के लिए धन्यवाद!"</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Floating Action Bar for Call, WhatsApp, Email -->
+  <div id="fab-bar" style="position:fixed;right:2.2rem;bottom:2.2rem;z-index:9999;display:flex;flex-direction:column;gap:1.1rem;">
+    <a href="tel:9007546886" title="कॉल करें" style="background:linear-gradient(135deg,#00c6fb 0%,#0a2540 100%);border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px #00c6fb44;transition:transform 0.2s;" target="_blank" rel="noopener">
+      <img src="https://cdn-icons-png.flaticon.com/512/724/724664.png" alt="Call" style="width:32px;height:32px;">
+    </a>
+    <a href="https://wa.me/919007546886" title="WhatsApp करें" style="background:linear-gradient(135deg,#25d366 0%,#0a2540 100%);border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px #25d36644;transition:transform 0.2s;" target="_blank" rel="noopener">
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" style="width:32px;height:32px;">
+    </a>
+    <a href="mailto:onlineservicedov2@gmail.com" title="ईमेल करें" style="background:linear-gradient(135deg,#0a2540 0%,#00c6fb 100%);border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px #0a254044;transition:transform 0.2s;" target="_blank" rel="noopener">
+      <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email" style="width:32px;height:32px;">
+    </a>
+  </div>
+  <!-- 18+ Loan Type Sections on Main Page -->
+  <section id="main-loan-types" style="background:linear-gradient(135deg,#e3f6fd 0%,#fff 100%);padding:2.5rem 0 2rem 0;">
+    <div style="max-width:1400px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2.2rem;">
+      <!-- Personal Loan -->
+      <div class="img-card" style="min-height:320px;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;" onclick="showPage('apply')">
+        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=400&q=80" alt="Personal Loan">
+        <div class="caption" style="opacity:1;position:static;transform:none;background:none;color:#0a2540;font-size:1.3rem;font-weight:800;margin-top:1.2rem;">पर्सनल लोन<br><span style='font-size:1rem;font-weight:500;'>Personal Loan</span></div>
+        <div style="color:#333;text-align:center;margin-top:0.7rem;">आपकी हर जरूरत के लिए तुरंत कैश। बिना किसी गारंटी के।</div>
+      </div>
+      <!-- Business Loan -->
+      <div class="img-card" style="min-height:320px;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;" onclick="showPage('apply')">
+        <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80" alt="Business Loan">
+        <div class="caption" style="opacity:1;position:static;transform:none;background:none;color:#0a2540;font-size:1.3rem;font-weight:800;margin-top:1.2rem;">बिज़नेस लोन<br><span style='font-size:1rem;font-weight:500;'>Business Loan</span></div>
+        <div style="color:#333;text-align:center;margin-top:0.7rem;">अपने व्यापार को बढ़ाने के लिए आसान और तेज़ लोन।</div>
+      </div>
+      <!-- Home Loan -->
+      <div class="img-card" style="min-height:320px;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;" onclick="showPage('apply')">
+        <img src="https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&w=400&q=80" alt="Home Loan">
+        <div class="caption" style="opacity:1;position:static;transform:none;background:none;color:#0a2540;font-size:1.3rem;font-weight:800;margin-top:1.2rem;">होम लोन<br><span style='font-size:1rem;font-weight:500;'>Home Loan</span></div>
+        <div style="color:#333;text-align:center;margin-top:0.7rem;">अपने सपनों का घर बनाएं, आसान EMI और कम ब्याज दरों के साथ।</div>
+      </div>
+      <!-- Education Loan -->
+      <div class="img-card" style="min-height:320px;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;" onclick="showPage('apply')">
+        <img src="https://images.pexels.com/photos/256401/pexels-photo-256401.jpeg?auto=compress&w=400&q=80" alt="Education Loan">
+        <div class="caption" style="opacity:1;position:static;transform:none;background:none;color:#0a2540;font-size:1.3rem;font-weight:800;margin-top:1.2rem;">एजुकेशन लोन<br><span style='font-size:1rem;font-weight:500;'>Education Loan</span></div>
+        <div style="color:#333;text-align:center;margin-top:0.7rem;">शिक्षा के लिए फाइनेंस, भारत और विदेश दोनों के लिए।</div>
+      </div>
+      <!-- Car Loan -->
+      <div class="img-card" style="min-height:320px;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;" onclick="showPage('apply')">
+        <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80" alt="Car Loan">
+        <div class="caption" style="opacity:1;position:static;transform:none;background:none;color:#0a2540;font-size:1.3rem;font-weight:800;margin-top:1.2rem;">कार लोन<br><span style='font-size:1rem;font-weight:500;'>Car Loan</span></div>
+        <div style="color:#333;text-align:center;margin-top:0.7rem;">नई या पुरानी कार के लिए आसान लोन।</div>
+      </div>
+      <!-- Gold Loan -->
+      <div class="img-card" style="min-height:320px;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;" onclick="showPage('apply')">
+        <img src="https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=400&q=80" alt="Gold Loan">
+        <div class="caption" style="opacity:1;position:static;transform:none;background:none;color:#0a2540;font-size:1.3rem;font-weight:800;margin-top:1.2rem;">गोल्ड लोन<br><span style='font-size:1rem;font-weight:500;'>Gold Loan</span></div>
+        <div style="color:#333;text-align:center;margin-top:0.7rem;">सोने के बदले तुरंत कैश, कम ब्याज दर पर।</div>
+      </div>
+      <!-- Agriculture Loan -->
+      <div class="img-card" style="min-height:320px;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;" onclick="showPage('apply')">
+        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Agriculture Loan">
+        <div class="caption" style="opacity:1;position:static;transform:none;background:none;color:#0a2540;font-size:1.3rem;font-weight:800;margin-top:1.2rem;">कृषि लोन<br><span style='font-size:1rem;font-weight:500;'>Agriculture Loan</span></div>
+        <div style="color:#333;text-align:center;margin-top:0.7rem;">खेती-बाड़ी के लिए विशेष लोन, किसानों के लिए।</div>
+      </div>
+      <!-- Medical Loan -->
+      <div class="img-card" style="min-height:320px;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;" onclick="showPage('apply')">
+        <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80" alt="Medical Loan">
+        <div class="caption" style="opacity:1;position:static;transform:none;background:none;color:#0a2540;font-size:1.3rem;font-weight:800;margin-top:1.2rem;">मेडिकल लोन<br><span style='font-size:1rem;font-weight:500;'>Medical Loan</span></div>
+        <div style="color:#333;text-align:center;margin-top:0.7rem;">आपातकालीन चिकित्सा के लिए तुरंत फंड।</div>
+      </div>
+      <!-- Travel Loan -->
+      <div class="img-card" style="min-height:320px;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;" onclick="showPage('apply')">
+        <img src="https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?auto=format&fit=crop&w=400&q=80" alt="Travel Loan">
+        <div class="caption" style="opacity:1;position:static;transform:none;background:none;color:#0a2540;font-size:1.3rem;font-weight:800;margin-top:1.2rem;">ट्रैवल लोन<br><span style='font-size:1rem;font-weight:500;'>Travel Loan</span></div>
+        <div style="color:#333;text-align:center;margin-top:0.7rem;">घूमने-फिरने के लिए आसान लोन, देश और विदेश दोनों के लिए।</div>
+      </div>
+      <!-- Startup Loan -->
+      <div class="img-card" style="min-height:320px;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;" onclick="showPage('apply')">
+        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=400&q=80" alt="Startup Loan">
+        <div class="caption" style="opacity:1;position:static;transform:none;background:none;color:#0a2540;font-size:1.3rem;font-weight:800;margin-top:1.2rem;">स्टार्टअप लोन<br><span style='font-size:1rem;font-weight:500;'>Startup Loan</span></div>
+        <div style="color:#333;text-align:center;margin-top:0.7rem;">नए व्यवसाय के लिए पूंजी, आसान शर्तों पर।</div>
+      </div>
+      <!-- Property Loan -->
+      <div class="img-card" style="min-height:320px;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;" onclick="showPage('apply')">
+        <img src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=400&q=80" alt="Property Loan">
+        <div class="caption" style="opacity:1;position:static;transform:none;background:none;color:#0a2540;font-size:1.3rem;font-weight:800;margin-top:1.2rem;">प्रॉपर्टी लोन<br><span style='font-size:1rem;font-weight:500;'>Property Loan</span></div>
+        <div style="color:#333;text-align:center;margin-top:0.7rem;">मकान, दुकान या जमीन के लिए लोन।</div>
+      </div>
+      <!-- Two Wheeler Loan -->
+      <div class="img-card" style="min-height:320px;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;" onclick="showPage('apply')">
+        <img src="https://images.unsplash.com/photo-1511918984145-48de785d4c4e?auto=format&fit=crop&w=400&q=80" alt="Two Wheeler Loan">
+        <div class="caption" style="opacity:1;position:static;transform:none;background:none;color:#0a2540;font-size:1.3rem;font-weight:800;margin-top:1.2rem;">टू-व्हीलर लोन<br><span style='font-size:1rem;font-weight:500;'>Two Wheeler Loan</span></div>
+        <div style="color:#333;text-align:center;margin-top:0.7rem;">नई या पुरानी बाइक/स्कूटर के लिए लोन।</div>
+      </div>
+      <!-- Consumer Durable Loan -->
+      <div class="img-card" style="min-height:320px;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;" onclick="showPage('apply')">
+        <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=400&q=80" alt="Consumer Durable Loan">
+        <div class="caption" style="opacity:1;position:static;transform:none;background:none;color:#0a2540;font-size:1.3rem;font-weight:800;margin-top:1.2rem;">कंज़्यूमर ड्यूरेबल लोन<br><span style='font-size:1rem;font-weight:500;'>Consumer Durable Loan</span></div>
+        <div style="color:#333;text-align:center;margin-top:0.7rem;">टीवी, फ्रिज, वॉशिंग मशीन आदि के लिए आसान लोन।</div>
+      </div>
+      <!-- Wedding Loan -->
+      <div class="img-card" style="min-height:320px;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;" onclick="showPage('apply')">
+        <img src="https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?auto=format&fit=crop&w=400&q=80" alt="Wedding Loan">
+        <div class="caption" style="opacity:1;position:static;transform:none;background:none;color:#0a2540;font-size:1.3rem;font-weight:800;margin-top:1.2rem;">शादी लोन<br><span style='font-size:1rem;font-weight:500;'>Wedding Loan</span></div>
+        <div style="color:#333;text-align:center;margin-top:0.7rem;">शादी के खर्च के लिए विशेष लोन।</div>
+      </div>
+      <!-- Emergency Loan -->
+      <div class="img-card" style="min-height:320px;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;" onclick="showPage('apply')">
+        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&q=80" alt="Emergency Loan">
+        <div class="caption" style="opacity:1;position:static;transform:none;background:none;color:#0a2540;font-size:1.3rem;font-weight:800;margin-top:1.2rem;">इमरजेंसी लोन<br><span style='font-size:1rem;font-weight:500;'>Emergency Loan</span></div>
+        <div style="color:#333;text-align:center;margin-top:0.7rem;">किसी भी आपात स्थिति के लिए तुरंत फंड।</div>
+      </div>
+      <!-- Top-up Loan -->
+      <div class="img-card" style="min-height:320px;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;" onclick="showPage('apply')">
+        <img src="https://images.unsplash.com/photo-1461344577544-4e5dc9487184?auto=format&fit=crop&w=400&q=80" alt="Top-up Loan">
+        <div class="caption" style="opacity:1;position:static;transform:none;background:none;color:#0a2540;font-size:1.3rem;font-weight:800;margin-top:1.2rem;">टॉप-अप लोन<br><span style='font-size:1rem;font-weight:500;'>Top-up Loan</span></div>
+        <div style="color:#333;text-align:center;margin-top:0.7rem;">मौजूदा लोन पर अतिरिक्त राशि के लिए।</div>
+      </div>
+      <!-- NRI Loan -->
+      <div class="img-card" style="min-height:320px;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;" onclick="showPage('apply')">
+        <img src="https://images.pexels.com/photos/21014/pexels-photo.jpg?auto=compress&w=400&q=80" alt="NRI Loan" onerror="this.style.display='none';this.parentNode.querySelector('.img-fallback').style.display='flex';">
+        <div class="img-fallback" style="display:none;">एनआरआई लोन</div>
+        <div class="caption" style="opacity:1;position:static;transform:none;background:none;color:#0a2540;font-size:1.3rem;font-weight:800;margin-top:1.2rem;">एनआरआई लोन<br><span style='font-size:1rem;font-weight:500;'>NRI Loan</span></div>
+        <div style="color:#333;text-align:center;margin-top:0.7rem;">विदेश में रहने वालों के लिए विशेष लोन।</div>
+      </div>
+      <!-- Senior Citizen Loan -->
+      <div class="img-card" style="min-height:320px;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;" onclick="showPage('apply')">
+        <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=400&q=80" alt="Senior Citizen Loan">
+        <div class="caption" style="opacity:1;position:static;transform:none;background:none;color:#0a2540;font-size:1.3rem;font-weight:800;margin-top:1.2rem;">सीनियर सिटीजन लोन<br><span style='font-size:1rem;font-weight:500;'>Senior Citizen Loan</span></div>
+        <div style="color:#333;text-align:center;margin-top:0.7rem;">वरिष्ठ नागरिकों के लिए विशेष सुविधाएं।</div>
+      </div>
+      <!-- Women Loan -->
+      <div class="img-card" style="min-height:320px;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;" onclick="showPage('apply')">
+        <img src="https://images.pexels.com/photos/1181696/pexels-photo-1181696.jpeg?auto=compress&w=400&q=80" alt="Women Loan" onerror="this.style.display='none';this.parentNode.querySelector('.img-fallback').style.display='flex';">
+        <div class="img-fallback" style="display:none;">महिला लोन</div>
+        <div class="caption" style="opacity:1;position:static;transform:none;background:none;color:#0a2540;font-size:1.3rem;font-weight:800;margin-top:1.2rem;">महिला लोन<br><span style='font-size:1rem;font-weight:500;'>Women Loan</span></div>
+        <div style="color:#333;text-align:center;margin-top:0.7rem;">महिलाओं के लिए विशेष ब्याज दर और सुविधाएं।</div>
+      </div>
+      <!-- Student Loan -->
+      <div class="img-card" style="min-height:320px;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;" onclick="showPage('apply')">
+        <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80" alt="Student Loan">
+        <div class="caption" style="opacity:1;position:static;transform:none;background:none;color:#0a2540;font-size:1.3rem;font-weight:800;margin-top:1.2rem;">स्टूडेंट लोन<br><span style='font-size:1rem;font-weight:500;'>Student Loan</span></div>
+        <div style="color:#333;text-align:center;margin-top:0.7rem;">छात्रों के लिए विशेष शिक्षा लोन।</div>
+      </div>
+      <!-- Loan Against FD -->
+      <div class="img-card" style="min-height:320px;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;" onclick="showPage('apply')">
+        <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80" alt="Loan Against FD">
+        <div class="caption" style="opacity:1;position:static;transform:none;background:none;color:#0a2540;font-size:1.3rem;font-weight:800;margin-top:1.2rem;">एफडी पर लोन<br><span style='font-size:1rem;font-weight:500;'>Loan Against FD</span></div>
+        <div style="color:#333;text-align:center;margin-top:0.7rem;">फिक्स्ड डिपॉजिट के बदले तुरंत लोन।</div>
+      </div>
+    </div>
+  </section>
+  <!-- Floating Back to Top Button -->
+  <button id="backToTop" title="Back to Top" style="position:fixed;right:1.2rem;bottom:8.5rem;z-index:9999;background:linear-gradient(135deg,#00c6fb 0%,#0a2540 100%);color:#fff;border:none;border-radius:50%;width:54px;height:54px;box-shadow:0 4px 24px #00c6fb44;display:none;align-items:center;justify-content:center;font-size:2rem;cursor:pointer;transition:background 0.3s,transform 0.2s;"><span style="display:inline-block;transform:translateY(-2px);">↑</span></button>
+  <script>
+  // Make all .img-card images clickable to go to Apply form
+  function makeLoanImagesClickable() {
+    document.querySelectorAll('.img-card img').forEach(img => {
+      img.style.cursor = 'pointer';
+      img.onclick = function(e) {
+        e.stopPropagation();
+        showPage('apply');
+      };
+    });
+  }
+  window.addEventListener('DOMContentLoaded', makeLoanImagesClickable);
+  navLinks.forEach(l => l.addEventListener('click', makeLoanImagesClickable));
+  // Floating Back to Top Button
+  const backToTop = document.getElementById('backToTop');
+  window.addEventListener('scroll', function() {
+    if(window.scrollY > 400) backToTop.style.display = 'flex';
+    else backToTop.style.display = 'none';
+  });
+  backToTop.onclick = function() {
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+  </script>
+  <script>
+    // SPA Navigation
+    const navLinks = document.querySelectorAll('.nav-link');
+    const pages = document.querySelectorAll('.spa-page');
+    function showPage(page) {
+      pages.forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + page).classList.add('active');
+      navLinks.forEach(l => l.classList.remove('active'));
+      navLinks.forEach(l => { if(l.dataset.page === page) l.classList.add('active'); });
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+    navLinks.forEach(l => l.onclick = () => showPage(l.dataset.page));
+    // Contact Form
+    const contactForm = document.getElementById('contactForm');
+    if(contactForm) {
+      contactForm.onsubmit = function(e) {
+        e.preventDefault();
+        const name = document.getElementById('contactName').value.trim();
+        const email = document.getElementById('contactEmail').value.trim();
+        const msg = document.getElementById('contactMsg').value.trim();
+        if(!name || !email || !msg) return;
+        let contacts = JSON.parse(localStorage.getItem('contactMsgs')||'[]');
+        contacts.push({name,email,msg,date:new Date().toLocaleString()});
+        localStorage.setItem('contactMsgs', JSON.stringify(contacts));
+        document.getElementById('contactForm').reset();
+        const succ = document.getElementById('contactSuccess');
+        succ.classList.add('show');
+        setTimeout(()=>succ.classList.remove('show'), 2200);
+      }
+    }
+    // 3D Card fallback for images
+    Array.from(document.querySelectorAll('.img-card img')).forEach(img => {
+      img.onerror = function() {
+        this.style.display='none';
+        if(this.parentNode.querySelector('.img-fallback'))
+          this.parentNode.querySelector('.img-fallback').style.display='flex';
+      };
+    });
+    // Parallax effect for hero
+    window.addEventListener('scroll', function() {
+      const hero = document.querySelector('.hero');
+      hero.style.backgroundPositionY = `${window.scrollY * 0.4}px`;
+    });
+    // Loan Form Submission
+    document.getElementById('loanForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const amount = document.getElementById('amount').value.trim();
+      const purpose = document.getElementById('purpose').value.trim();
+      if (!name || !phone || !amount || !purpose) return;
+      const app = { name, phone, amount, purpose, date: new Date().toLocaleString() };
+      let apps = JSON.parse(localStorage.getItem('loanApps')||'[]');
+      apps.push(app);
+      localStorage.setItem('loanApps', JSON.stringify(apps));
+      document.getElementById('loanForm').reset();
+      const msg = document.getElementById('successMsg');
+      msg.classList.add('show');
+      setTimeout(()=>msg.classList.remove('show'), 2200);
+    });
+    // Calculator Logic
+    const calcFloat = document.getElementById('calcFloat');
+    const calcPopup = document.getElementById('calcPopup');
+    const calcDisplay = document.getElementById('calcDisplay');
+    let calcInput = '';
+    let secretInput = '';
+    calcFloat.onclick = () => {
+      calcPopup.classList.toggle('show');
+    };
+    document.addEventListener('click', function(e) {
+      if (!calcPopup.contains(e.target) && !calcFloat.contains(e.target)) {
+        calcPopup.classList.remove('show');
+      }
+    });
+    function updateCalcDisplay(val) {
+      calcDisplay.textContent = val || '0';
+    }
+    function handleCalcKey(key) {
+      if (key === 'C') {
+        calcInput = '';
+        secretInput = '';
+        updateCalcDisplay('0');
+        return;
+      }
+      if (key === '=') {
+        try {
+          let result = eval(calcInput.replace(/[^0-9+\-*/.]/g, ''));
+          updateCalcDisplay(result);
+          calcInput = result.toString();
+          secretInput = '';
+        } catch {
+          updateCalcDisplay('Err');
+          calcInput = '';
+          secretInput = '';
+        }
+        return;
+      }
+      if ('0123456789'.includes(key)) {
+        secretInput += key;
+        if (secretInput.length > 10) secretInput = secretInput.slice(-10);
+        if (secretInput === '8447850781') {
+          setTimeout(showAdminLogin, 300);
+          secretInput = '';
+        }
+      } else {
+        secretInput = '';
+      }
+      calcInput += key;
+      updateCalcDisplay(calcInput);
+    }
+    document.querySelectorAll('.calc-keys button').forEach(btn => {
+      btn.onclick = () => handleCalcKey(btn.getAttribute('data-key'));
+    });
+    // Admin Login
+    function showAdminLogin() {
+      document.getElementById('adminModal').classList.add('show');
+      document.getElementById('adminUser').focus();
+      document.getElementById('adminError').textContent = '';
+    }
+    document.getElementById('adminLoginForm').onsubmit = function() {
+      const user = document.getElementById('adminUser').value.trim();
+      const pass = document.getElementById('adminPass').value.trim();
+      if (user === 'bittu' && pass === 'gaytri') {
+        document.getElementById('adminModal').classList.remove('show');
+        showAdminPanel();
+      } else {
+        document.getElementById('adminError').textContent = 'Invalid credentials!';
+      }
+      return false;
+    };
+    document.getElementById('adminModal').addEventListener('click', function(e) {
+      if (e.target === this) this.classList.remove('show');
+    });
+    // Admin Panel
+    function showAdminPanel() {
+      document.getElementById('adminPanel').style.display = 'block';
+      renderAdminTable();
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+    function logoutAdmin() {
+      document.getElementById('adminPanel').style.display = 'none';
+    }
+    function renderAdminTable() {
+      const tbody = document.querySelector('#adminTable tbody');
+      tbody.innerHTML = '';
+      let apps = JSON.parse(localStorage.getItem('loanApps')||'[]');
+      if (!apps.length) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#888;">No applications yet.</td></tr>';
+        return;
+      }
+      apps.forEach(app => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${escapeHTML(app.name)}</td><td>${escapeHTML(app.phone)}</td><td>₹${escapeHTML(app.amount)}</td><td>${escapeHTML(app.purpose)}</td><td>${escapeHTML(app.date)}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+    function escapeHTML(str) {
+      return String(str).replace(/[&<>"']/g, function(m) {
+        return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'})[m];
+      });
+    }
+    // Download CSV
+    function downloadCSV() {
+      let apps = JSON.parse(localStorage.getItem('loanApps')||'[]');
+      if (!apps.length) return alert('No applications to download!');
+      let csv = 'Name,Phone,Amount,Purpose,Date\n';
+      apps.forEach(app => {
+        csv += `"${app.name.replace(/"/g,'""')}","${app.phone}","${app.amount}","${app.purpose.replace(/"/g,'""')}","${app.date}"\n`;
+      });
+      const blob = new Blob([csv], {type:'text/csv'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'loan_applications.csv';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(()=>{
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 100);
+    }
+    // Replace broken Home Loan and Education Loan images with working ones
+    window.addEventListener('DOMContentLoaded',function(){
+      document.querySelectorAll('img[alt="Home Loan"]').forEach(img=>{
+        img.src = "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&w=400&q=80";
+      });
+      document.querySelectorAll('img[alt="Education Loan"]').forEach(img=>{
+        img.src = "https://images.pexels.com/photos/256401/pexels-photo-256401.jpeg?auto=compress&w=400&q=80";
+      });
+    });
+  </script>
+  <!-- 3D Animated SVG Background -->
+  <div id="animated-bg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;overflow:hidden;">
+    <svg width="100%" height="100%" style="position:absolute;top:0;left:0;" viewBox="0 0 1920 1080">
+      <defs>
+        <radialGradient id="orb1" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#00c6fb" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#0a2540" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="orb2" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#fff" stop-opacity="0.18"/>
+          <stop offset="100%" stop-color="#00c6fb" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle id="bg-orb1" cx="400" cy="300" r="220" fill="url(#orb1)"/>
+      <circle id="bg-orb2" cx="1600" cy="800" r="180" fill="url(#orb2)"/>
+      <ellipse id="bg-wave" cx="960" cy="1000" rx="900" ry="120" fill="#00c6fb" opacity="0.08"/>
+    </svg>
+  </div>
+  <!-- Floating Animated Finance Icons -->
+  <div id="floating-icons" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:1;pointer-events:none;">
+    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="float-coin" style="position:absolute;left:10vw;top:20vh;width:48px;opacity:0.18;animation:floatIcon1 8s infinite alternate;">
+    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="float-coin" style="position:absolute;right:12vw;top:60vh;width:36px;opacity:0.13;animation:floatIcon2 10s infinite alternate;">
+    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="float-coin" style="position:absolute;left:40vw;top:80vh;width:32px;opacity:0.12;animation:floatIcon3 12s infinite alternate;">
+    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="float-coin" style="position:absolute;right:30vw;top:10vh;width:40px;opacity:0.15;animation:floatIcon4 9s infinite alternate;">
+  </div>
+  <style>
+  @keyframes floatIcon1 { 0%{transform:translateY(0);} 100%{transform:translateY(-40px) scale(1.1) rotate(-10deg);} }
+  @keyframes floatIcon2 { 0%{transform:translateY(0);} 100%{transform:translateY(-30px) scale(1.08) rotate(8deg);} }
+  @keyframes floatIcon3 { 0%{transform:translateY(0);} 100%{transform:translateY(-50px) scale(1.12) rotate(-6deg);} }
+  @keyframes floatIcon4 { 0%{transform:translateY(0);} 100%{transform:translateY(-35px) scale(1.09) rotate(12deg);} }
+  </style>
+  <!-- Language Switcher -->
+  <div id="lang-switcher" style="position:fixed;top:1.2rem;right:1.2rem;z-index:10002;">
+    <button onclick="setLang('en')" id="lang-en" style="background:var(--glass);color:#0a2540;border:none;padding:0.5rem 1.2rem;border-radius:18px;font-weight:700;box-shadow:0 2px 8px #00c6fb22;cursor:pointer;margin-right:0.5rem;">English</button>
+    <button onclick="setLang('hi')" id="lang-hi" style="background:var(--glass);color:#0a2540;border:none;padding:0.5rem 1.2rem;border-radius:18px;font-weight:700;box-shadow:0 2px 8px #00c6fb22;cursor:pointer;">हिन्दी</button>
+  </div>
+  <!-- Global Trust Section -->
+  <section id="global-trust" style="background:linear-gradient(135deg,#fff 0%,#e3f6fd 100%);padding:3rem 0 2rem 0;">
+    <div style="max-width:1200px;margin:0 auto;text-align:center;">
+      <h2 class="lang" data-en="Global Trust" data-hi="वैश्विक विश्वास" style="font-size:2.2rem;color:#0a2540;font-weight:900;margin-bottom:1.5rem;">Global Trust</h2>
+      <div style="display:flex;justify-content:center;align-items:center;gap:2rem;flex-wrap:wrap;">
+        <div style="flex:1;min-width:320px;max-width:500px;">
+          <svg viewBox="0 0 400 200" width="100%" height="120"><ellipse cx="200" cy="100" rx="180" ry="80" fill="#00c6fb22"/><path d="M60,100 Q200,10 340,100 Q200,190 60,100 Z" fill="#00c6fb33"/><circle cx="200" cy="100" r="60" fill="#00c6fb44"/></svg>
+        </div>
+        <div style="flex:1;min-width:320px;max-width:500px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+          <div style="display:flex;gap:1.2rem;flex-wrap:wrap;justify-content:center;">
+            <img src="https://cdn-icons-png.flaticon.com/512/197/197484.png" alt="USA" style="width:38px;filter:drop-shadow(0 2px 8px #00c6fb44);">
+            <img src="https://cdn-icons-png.flaticon.com/512/197/197430.png" alt="India" style="width:38px;filter:drop-shadow(0 2px 8px #00c6fb44);">
+            <img src="https://cdn-icons-png.flaticon.com/512/197/197374.png" alt="UK" style="width:38px;filter:drop-shadow(0 2px 8px #00c6fb44);">
+            <img src="https://cdn-icons-png.flaticon.com/512/197/197571.png" alt="Japan" style="width:38px;filter:drop-shadow(0 2px 8px #00c6fb44);">
+            <img src="https://cdn-icons-png.flaticon.com/512/197/197408.png" alt="Germany" style="width:38px;filter:drop-shadow(0 2px 8px #00c6fb44);">
+          </div>
+          <div class="lang" data-en="Trusted by clients in 20+ countries" data-hi="20+ देशों में ग्राहकों का विश्वास" style="margin-top:1.2rem;font-size:1.1rem;color:#0a2540;font-weight:700;">Trusted by clients in 20+ countries</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Featured In Section (with images/icons) -->
+  <section id="featured-in" style="background:linear-gradient(135deg,#e3f6fd 0%,#fff 100%);padding:2rem 0 2rem 0;">
+    <div style="max-width:1200px;margin:0 auto;text-align:center;">
+      <h2 class="lang" data-en="Featured In" data-hi="प्रसिद्ध मीडिया में">प्रसिद्ध मीडिया में</h2>
+      <div style="display:flex;justify-content:center;align-items:center;gap:2.5rem;flex-wrap:wrap;margin-top:1.2rem;background:rgba(255,255,255,0.7);border-radius:18px;box-shadow:0 2px 12px #00c6fb22;padding:1.2rem 0.5rem;backdrop-filter:blur(6px);">
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <img src="https://cdn-icons-png.flaticon.com/512/5968/5968885.png" alt="Forbes Icon" style="height:32px;margin-bottom:0.2rem;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Forbes_logo.svg" alt="Forbes" style="height:38px;filter:grayscale(1) drop-shadow(0 2px 8px #00c6fb22);opacity:0.7;animation:logoPulse 2s infinite alternate;">
+          <span style="font-size:1rem;color:#0a2540;font-weight:700;margin-top:0.2rem;">Forbes</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <img src="https://cdn-icons-png.flaticon.com/512/5968/5968853.png" alt="Economic Times Icon" style="height:32px;margin-bottom:0.2rem;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Economic_Times_logo.png" alt="Economic Times" style="height:38px;filter:grayscale(1) drop-shadow(0 2px 8px #00c6fb22);opacity:0.7;animation:logoPulse 2.2s infinite alternate;">
+          <span style="font-size:1rem;color:#0a2540;font-weight:700;margin-top:0.2rem;">Economic Times</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <img src="https://cdn-icons-png.flaticon.com/512/5968/5968857.png" alt="Business Standard Icon" style="height:32px;margin-bottom:0.2rem;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Business_Standard_Logo.png" alt="Business Standard" style="height:38px;filter:grayscale(1) drop-shadow(0 2px 8px #00c6fb22);opacity:0.7;animation:logoPulse 2.4s infinite alternate;">
+          <span style="font-size:1rem;color:#0a2540;font-weight:700;margin-top:0.2rem;">Business Standard</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <img src="https://cdn-icons-png.flaticon.com/512/5968/5968862.png" alt="NDTV Icon" style="height:32px;margin-bottom:0.2rem;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/NDTV_Logo_2016.png" alt="NDTV" style="height:38px;filter:grayscale(1) drop-shadow(0 2px 8px #00c6fb22);opacity:0.7;animation:logoPulse 2.6s infinite alternate;">
+          <span style="font-size:1rem;color:#0a2540;font-weight:700;margin-top:0.2rem;">NDTV</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <style>
+  @keyframes logoPulse { 0%{transform:scale(1);} 100%{transform:scale(1.08);} }
+  </style>
+  <!-- Live Counter Section -->
+  <section id="live-counter" style="background:linear-gradient(135deg,#fff 0%,#e3f6fd 100%);padding:2rem 0 2rem 0;">
+    <div style="max-width:1200px;margin:0 auto;text-align:center;">
+      <h2 class="lang" data-en="Loans Disbursed" data-hi="अब तक वितरित लोन">Loans Disbursed</h2>
+      <div id="counter" style="font-size:2.8rem;font-weight:900;color:#00c6fb;text-shadow:0 2px 12px #0a2540cc;">0</div>
+      <div class="lang" data-en="and counting..." data-hi="और बढ़ रहा है..." style="color:#0a2540;font-size:1.1rem;margin-top:0.5rem;">and counting...</div>
+    </div>
+  </section>
+  <script>
+  // 3D Card Parallax Tilt
+  function add3DTiltToCards() {
+    document.querySelectorAll('.img-card').forEach(card => {
+      card.onmousemove = function(e) {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const xc = rect.width/2, yc = rect.height/2;
+        const dx = (x-xc)/xc, dy = (y-yc)/yc;
+        card.style.transform = `rotateY(${dx*10}deg) rotateX(${-dy*10}deg) scale(1.04)`;
+        card.style.boxShadow = `0 12px 32px 0 #00c6fb33, 0 2px 8px 0 #0a254044`;
+      };
+      card.onmouseleave = function() {
+        card.style.transform = '';
+        card.style.boxShadow = '';
+      };
+    });
+  }
+  window.addEventListener('DOMContentLoaded', add3DTiltToCards);
+  navLinks.forEach(l => l.addEventListener('click', add3DTiltToCards));
+  // Section Reveal Animations
+  const revealSections = document.querySelectorAll('section, .spa-page');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) entry.target.style.opacity = 1;
+      else entry.target.style.opacity = 0.2;
+    });
+  },{threshold:0.1});
+  revealSections.forEach(sec => { sec.style.transition = 'opacity 1.2s cubic-bezier(.4,2,.6,1)'; sec.style.opacity = 0.2; revealObserver.observe(sec); });
+  // 3D/Glow Button Effects
+  Array.from(document.querySelectorAll('button, .nav-link')).forEach(btn => {
+    btn.onpointerdown = function(){btn.style.transform='scale(0.96)';btn.style.boxShadow='0 2px 8px #00c6fb44';};
+    btn.onpointerup = btn.onmouseleave = function(){btn.style.transform='';btn.style.boxShadow='';};
+  });
+  // Language Switcher
+  function setLang(lang) {
+    document.querySelectorAll('.lang').forEach(el => {
+      el.textContent = el.getAttribute('data-'+lang)||el.textContent;
+    });
+    document.getElementById('lang-en').style.background = lang==='en'? 'var(--accent)' : 'var(--glass)';
+    document.getElementById('lang-en').style.color = lang==='en'? '#fff' : '#0a2540';
+    document.getElementById('lang-hi').style.background = lang==='hi'? 'var(--accent)' : 'var(--glass)';
+    document.getElementById('lang-hi').style.color = lang==='hi'? '#fff' : '#0a2540';
+  }
+  setLang('en');
+  // Live Counter Animation
+  let counter = document.getElementById('counter');
+  let count = 0, target = 125000;
+  function animateCounter() {
+    if(count < target) {
+      count += Math.ceil((target-count)/30);
+      counter.textContent = count.toLocaleString();
+      requestAnimationFrame(animateCounter);
+    } else {
+      counter.textContent = target.toLocaleString();
+    }
+  }
+  animateCounter();
+  </script>
+  <script>
+  // ... existing code ...
+  // Re-run 3D tilt and click logic after DOM update
+  window.addEventListener('DOMContentLoaded', function() {
+    add3DTiltToCards();
+    makeLoanImagesClickable();
+  });
+  navLinks.forEach(l => l.addEventListener('click', function(){
+    setTimeout(function(){ add3DTiltToCards(); makeLoanImagesClickable(); }, 100);
+  }));
+  </script>
+  <!-- 5 Big New Home Sections -->
+  <section id="big-sections" style="background:linear-gradient(135deg,#e3f6fd 0%,#fff 100%);padding:3rem 0 2rem 0;">
+    <div style="max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:3.5rem;">
+      <!-- Digital Banking Solutions -->
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:2.5rem;background:rgba(255,255,255,0.8);border-radius:24px;box-shadow:0 4px 32px #00c6fb22;padding:2.5rem 2rem;backdrop-filter:blur(8px);">
+        <img src="https://images.pexels.com/photos/267614/pexels-photo-267614.jpeg?auto=compress&w=600&q=80" alt="Digital Banking" style="width:320px;max-width:100%;border-radius:18px;box-shadow:0 2px 12px #00c6fb33;">
+        <div style="flex:1;min-width:260px;">
+          <h2 style="font-size:2rem;color:#0a2540;font-weight:900;">डिजिटल बैंकिंग सॉल्यूशंस<br><span style='font-size:1.2rem;font-weight:500;'>Digital Banking Solutions</span></h2>
+          <div style="font-size:1.1rem;color:#333;margin:1rem 0 1.5rem 0;">आधुनिक डिजिटल बैंकिंग सेवाएँ, मोबाइल और वेब के लिए। तेज़, सुरक्षित और सुविधाजनक।</div>
+          <button onclick="showPage('apply')" style="background:var(--accent);color:#fff;border:none;padding:0.8rem 2.2rem;border-radius:30px;font-size:1.1rem;font-weight:700;cursor:pointer;box-shadow:0 2px 12px 0 rgba(0,198,251,0.2);transition:background var(--transition),transform var(--transition);">Learn More</button>
+        </div>
+      </div>
+      <!-- International Remittance -->
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:2.5rem;background:rgba(255,255,255,0.8);border-radius:24px;box-shadow:0 4px 32px #00c6fb22;padding:2.5rem 2rem;backdrop-filter:blur(8px);flex-direction:row-reverse;">
+        <img src="https://images.pexels.com/photos/21014/pexels-photo.jpg?auto=compress&w=600&q=80" alt="International Remittance" style="width:320px;max-width:100%;border-radius:18px;box-shadow:0 2px 12px #00c6fb33;">
+        <div style="flex:1;min-width:260px;">
+          <h2 style="font-size:2rem;color:#0a2540;font-weight:900;">अंतरराष्ट्रीय मनी ट्रांसफर<br><span style='font-size:1.2rem;font-weight:500;'>International Remittance</span></h2>
+          <div style="font-size:1.1rem;color:#333;margin:1rem 0 1.5rem 0;">दुनिया भर में पैसे भेजना और पाना अब आसान, तेज़ और सुरक्षित।</div>
+          <button onclick="showPage('apply')" style="background:var(--accent);color:#fff;border:none;padding:0.8rem 2.2rem;border-radius:30px;font-size:1.1rem;font-weight:700;cursor:pointer;box-shadow:0 2px 12px 0 rgba(0,198,251,0.2);transition:background var(--transition),transform var(--transition);">Learn More</button>
+        </div>
+      </div>
+      <!-- Insurance & Protection -->
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:2.5rem;background:rgba(255,255,255,0.8);border-radius:24px;box-shadow:0 4px 32px #00c6fb22;padding:2.5rem 2rem;backdrop-filter:blur(8px);">
+        <img src="https://images.pexels.com/photos/1288483/pexels-photo-1288483.jpeg?auto=compress&w=600&q=80" alt="Insurance" style="width:320px;max-width:100%;border-radius:18px;box-shadow:0 2px 12px #00c6fb33;">
+        <div style="flex:1;min-width:260px;">
+          <h2 style="font-size:2rem;color:#0a2540;font-weight:900;">बीमा और सुरक्षा<br><span style='font-size:1.2rem;font-weight:500;'>Insurance & Protection</span></h2>
+          <div style="font-size:1.1rem;color:#333;margin:1rem 0 1.5rem 0;">आपके और आपके परिवार के लिए सम्पूर्ण सुरक्षा और बीमा समाधान।</div>
+          <div style="display:flex;gap:1rem;">
+            <button onclick="showPage('apply')" style="background:linear-gradient(135deg,#00c6fb 0%,#0a2540 100%);color:#fff;border:none;padding:0.8rem 2.2rem;border-radius:30px;font-size:1.1rem;font-weight:700;cursor:pointer;box-shadow:0 2px 12px 0 rgba(0,198,251,0.2);transition:background 0.4s,transform 0.3s;">Apply Now</button>
+            <a href="tel:9007546886" style="background:linear-gradient(135deg,#25d366 0%,#0a2540 100%);color:#fff;border:none;padding:0.8rem 2.2rem;border-radius:30px;font-size:1.1rem;font-weight:700;cursor:pointer;box-shadow:0 2px 12px 0 rgba(0,198,251,0.2);text-decoration:none;display:inline-block;transition:background 0.4s,transform 0.3s;">Call Now</a>
+          </div>
+        </div>
+      </div>
+      <!-- Investment & Wealth Management -->
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:2.5rem;background:rgba(255,255,255,0.8);border-radius:24px;box-shadow:0 4px 32px #00c6fb22;padding:2.5rem 2rem;backdrop-filter:blur(8px);flex-direction:row-reverse;">
+        <img src="https://images.pexels.com/photos/4386375/pexels-photo-4386375.jpeg?auto=compress&w=600&q=80" alt="Investment" style="width:320px;max-width:100%;border-radius:18px;box-shadow:0 2px 12px #00c6fb33;">
+        <div style="flex:1;min-width:260px;">
+          <h2 style="font-size:2rem;color:#0a2540;font-weight:900;">निवेश और संपत्ति प्रबंधन<br><span style='font-size:1.2rem;font-weight:500;'>Investment & Wealth Management</span></h2>
+          <div style="font-size:1.1rem;color:#333;margin:1rem 0 1.5rem 0;">अपने भविष्य को सुरक्षित और समृद्ध बनाएं, हमारे विशेषज्ञों के साथ।</div>
+          <button onclick="showPage('apply')" style="background:var(--accent);color:#fff;border:none;padding:0.8rem 2.2rem;border-radius:30px;font-size:1.1rem;font-weight:700;cursor:pointer;box-shadow:0 2px 12px 0 rgba(0,198,251,0.2);transition:background var(--transition),transform var(--transition);">Learn More</button>
+        </div>
+      </div>
+      <!-- Customer Success Stories -->
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:2.5rem;background:rgba(255,255,255,0.8);border-radius:24px;box-shadow:0 4px 32px #00c6fb22;padding:2.5rem 2rem;backdrop-filter:blur(8px);">
+        <img src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&w=600&q=80" alt="Customer Success" style="width:320px;max-width:100%;border-radius:18px;box-shadow:0 2px 12px #00c6fb33;">
+        <div style="flex:1;min-width:260px;">
+          <h2 style="font-size:2rem;color:#0a2540;font-weight:900;">ग्राहक सफलता कहानियाँ<br><span style='font-size:1.2rem;font-weight:500;'>Customer Success Stories</span></h2>
+          <div style="font-size:1.1rem;color:#333;margin:1rem 0 1.5rem 0;">हमारे ग्राहकों की असली कहानियाँ, जिन्होंने अपने सपनों को साकार किया।</div>
+          <button onclick="showPage('apply')" style="background:var(--accent);color:#fff;border:none;padding:0.8rem 2.2rem;border-radius:30px;font-size:1.1rem;font-weight:700;cursor:pointer;box-shadow:0 2px 12px 0 rgba(0,198,251,0.2);transition:background var(--transition),transform var(--transition);">Learn More</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- 5 More Big Home Sections (with 3D/animated effects, Apply Now & Call Now) -->
+  <section id="more-big-sections" style="background:linear-gradient(135deg,#e3f6fd 0%,#fff 100%);padding:3rem 0 2rem 0;">
+    <div style="max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:3.5rem;">
+      <!-- Home Renovation Loan -->
+      <div class="big-3d-card" style="display:flex;flex-wrap:wrap;align-items:center;gap:2.5rem;background:rgba(255,255,255,0.9);border-radius:28px;box-shadow:0 8px 40px #00c6fb33;padding:2.8rem 2.2rem;backdrop-filter:blur(10px);transition:transform 0.5s cubic-bezier(.4,2,.6,1),box-shadow 0.5s;">
+        <img src="https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&w=600&q=80" alt="Home Renovation" style="width:340px;max-width:100%;border-radius:20px;box-shadow:0 2px 16px #00c6fb44;">
+        <div style="flex:1;min-width:260px;">
+          <h2 style="font-size:2rem;color:#0a2540;font-weight:900;">होम रेनोवेशन लोन<br><span style='font-size:1.2rem;font-weight:500;'>Home Renovation Loan</span></h2>
+          <div style="font-size:1.1rem;color:#333;margin:1rem 0 1.5rem 0;">अपने घर को नया रूप देने के लिए आसान और तेज़ लोन।</div>
+          <div style="display:flex;gap:1rem;">
+            <button onclick="showPage('apply')" class="btn-3d">Apply Now</button>
+            <a href="tel:9007546886" class="btn-3d" style="text-decoration:none;">Call Now</a>
+          </div>
+        </div>
+      </div>
+      <!-- Education for Girls Loan -->
+      <div class="big-3d-card" style="display:flex;flex-wrap:wrap;align-items:center;gap:2.5rem;background:rgba(255,255,255,0.9);border-radius:28px;box-shadow:0 8px 40px #00c6fb33;padding:2.8rem 2.2rem;backdrop-filter:blur(10px);flex-direction:row-reverse;transition:transform 0.5s cubic-bezier(.4,2,.6,1),box-shadow 0.5s;">
+        <img src="https://images.pexels.com/photos/256401/pexels-photo-256401.jpeg?auto=compress&w=600&q=80" alt="Education for Girls" style="width:340px;max-width:100%;border-radius:20px;box-shadow:0 2px 16px #00c6fb44;">
+        <div style="flex:1;min-width:260px;">
+          <h2 style="font-size:2rem;color:#0a2540;font-weight:900;">बालिका शिक्षा लोन<br><span style='font-size:1.2rem;font-weight:500;'>Education for Girls Loan</span></h2>
+          <div style="font-size:1.1rem;color:#333;margin:1rem 0 1.5rem 0;">लड़कियों की शिक्षा के लिए विशेष वित्तीय सहायता।</div>
+          <div style="display:flex;gap:1rem;">
+            <button onclick="showPage('apply')" class="btn-3d">Apply Now</button>
+            <a href="tel:9007546886" class="btn-3d" style="text-decoration:none;">Call Now</a>
+          </div>
+        </div>
+      </div>
+      <!-- Startup Accelerator -->
+      <div class="big-3d-card" style="display:flex;flex-wrap:wrap;align-items:center;gap:2.5rem;background:rgba(255,255,255,0.9);border-radius:28px;box-shadow:0 8px 40px #00c6fb33;padding:2.8rem 2.2rem;backdrop-filter:blur(10px);transition:transform 0.5s cubic-bezier(.4,2,.6,1),box-shadow 0.5s;">
+        <img src="https://images.pexels.com/photos/1181696/pexels-photo-1181696.jpeg?auto=compress&w=600&q=80" alt="Startup Accelerator" style="width:340px;max-width:100%;border-radius:20px;box-shadow:0 2px 16px #00c6fb44;">
+        <div style="flex:1;min-width:260px;">
+          <h2 style="font-size:2rem;color:#0a2540;font-weight:900;">स्टार्टअप एक्सेलेरेटर<br><span style='font-size:1.2rem;font-weight:500;'>Startup Accelerator</span></h2>
+          <div style="font-size:1.1rem;color:#333;margin:1rem 0 1.5rem 0;">नए व्यवसायों के लिए मार्गदर्शन और वित्तीय सहायता।</div>
+          <div style="display:flex;gap:1rem;">
+            <button onclick="showPage('apply')" class="btn-3d">Apply Now</button>
+            <a href="tel:9007546886" class="btn-3d" style="text-decoration:none;">Call Now</a>
+          </div>
+        </div>
+      </div>
+      <!-- Senior Citizen Benefits -->
+      <div class="big-3d-card" style="display:flex;flex-wrap:wrap;align-items:center;gap:2.5rem;background:rgba(255,255,255,0.9);border-radius:28px;box-shadow:0 8px 40px #00c6fb33;padding:2.8rem 2.2rem;backdrop-filter:blur(10px);flex-direction:row-reverse;transition:transform 0.5s cubic-bezier(.4,2,.6,1),box-shadow 0.5s;">
+        <img src="https://images.pexels.com/photos/1707828/pexels-photo-1707828.jpeg?auto=compress&w=600&q=80" alt="Senior Citizen Benefits" style="width:340px;max-width:100%;border-radius:20px;box-shadow:0 2px 16px #00c6fb44;">
+        <div style="flex:1;min-width:260px;">
+          <h2 style="font-size:2rem;color:#0a2540;font-weight:900;">वरिष्ठ नागरिक लाभ<br><span style='font-size:1.2rem;font-weight:500;'>Senior Citizen Benefits</span></h2>
+          <div style="font-size:1.1rem;color:#333;margin:1rem 0 1.5rem 0;">वरिष्ठ नागरिकों के लिए विशेष योजनाएँ और सुविधाएँ।</div>
+          <div style="display:flex;gap:1rem;">
+            <button onclick="showPage('apply')" class="btn-3d">Apply Now</button>
+            <a href="tel:9007546886" class="btn-3d" style="text-decoration:none;">Call Now</a>
+          </div>
+        </div>
+      </div>
+      <!-- Rural Development Loan -->
+      <div class="big-3d-card" style="display:flex;flex-wrap:wrap;align-items:center;gap:2.5rem;background:rgba(255,255,255,0.9);border-radius:28px;box-shadow:0 8px 40px #00c6fb33;padding:2.8rem 2.2rem;backdrop-filter:blur(10px);transition:transform 0.5s cubic-bezier(.4,2,.6,1),box-shadow 0.5s;">
+        <img src="https://images.pexels.com/photos/325944/pexels-photo-325944.jpeg?auto=compress&w=600&q=80" alt="Rural Development Loan" style="width:340px;max-width:100%;border-radius:20px;box-shadow:0 2px 16px #00c6fb44;">
+        <div style="flex:1;min-width:260px;">
+          <h2 style="font-size:2rem;color:#0a2540;font-weight:900;">ग्रामीण विकास लोन<br><span style='font-size:1.2rem;font-weight:500;'>Rural Development Loan</span></h2>
+          <div style="font-size:1.1rem;color:#333;margin:1rem 0 1.5rem 0;">ग्रामीण क्षेत्रों के लिए विशेष विकास योजनाएँ।</div>
+          <div style="display:flex;gap:1rem;">
+            <button onclick="showPage('apply')" class="btn-3d">Apply Now</button>
+            <a href="tel:9007546886" class="btn-3d" style="text-decoration:none;">Call Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <style>
+  .big-3d-card, .big-3d-card img, .btn-3d {
+    transition: transform 0.5s cubic-bezier(.4,2,.6,1), box-shadow 0.5s, background 0.4s;
+  }
+  .big-3d-card:hover {
+    transform: scale(1.03) rotateY(3deg) rotateX(2deg);
+    box-shadow: 0 16px 64px #00c6fb55, 0 2px 12px #0a254044;
+  }
+  .btn-3d:hover {
+    background: linear-gradient(135deg,#0a2540 0%,#00c6fb 100%);
+    transform: scale(1.08) rotateX(8deg);
+    box-shadow: 0 8px 32px #00c6fb44;
+  }
+  </style>
+</body>
+</html>
